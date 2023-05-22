@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es" class="h-100">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Sistema de punto de venta para el curso de facturación electrónica">
+    <meta name="author" content="William Jair Dávila Vargas">
+    <title>{{ title }}</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'img/logotipo.png' %}">
+    <!--bootstrap-->
+    <link href="{% static 'lib/bootstrap-5.0.2/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'lib/bootstrap-5.0.2/css/sticky-footer-navbar.css' %}" rel="stylesheet">
+    <script src="{% static 'lib/bootstrap-5.0.2/js/jquery.min.js' %}"></script>
+    <script src="{% static 'lib/bootstrap-5.0.2/js/bootstrap.bundle.min.js' %}"></script>
+    <!--fontawesome-->
+    <link rel="stylesheet" href="{% static 'lib/fontawesome-6.1.1/css/all.min.css' %}"/>
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <!--jquery-confirm-->
+    <script src="{% static 'lib/jquery-confirm-3.3.4/js/jquery-confirm.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'lib/jquery-confirm-3.3.4/css/jquery-confirm.min.css' %}"/>
+    <!--sweetalert2-->
+    <script src="{% static 'lib/sweetalert2-11.0.16/js/sweetalert2.all.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'lib/sweetalert2-11.0.16/css/sweetalert2.min.css' %}"/>
+</head>
+{% block body %}
+    <body class="d-flex flex-column h-100">
+
+    <!-- Header -->
+    {% include 'header.html' %}
+    <!-- End Header -->
+
+    <!-- Begin page content -->
+    <main class="flex-shrink-0 mt-4">
+        <div class="container-fluid mt-5 mb-5 px-5">
+            {% block content_main %}
+
+            {% endblock %}
+        </div>
+    </main>
+
+    <!-- Fooder -->
+    {% include 'footer.html' %}
+    <!-- End Footer -->
+    <!--moment-->
+    <script src="{% static 'lib/bootstrap-daterangepicker-3.1/js/moment.min.js' %}"></script>
+    <script src="{% static 'lib/bootstrap-daterangepicker-3.1/js/moment-with-locales.js' %}"></script>
+    <!--utils-->
+    <script src="{% static 'js/main.js' %}"></script>
+    <script src="{% static 'js/functions.js' %}"></script>
+{% endblock %}
+{% block assets %}
+
+{% endblock %}
+</body>
+</html>
