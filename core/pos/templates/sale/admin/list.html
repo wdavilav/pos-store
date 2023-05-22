@@ -1,0 +1,68 @@
+{% extends 'list.html' %}
+{% load static %}
+{% block assets_list %}
+    <script src="{% static 'lib/bootstrap-daterangepicker-3.1/js/spanish.js' %}"></script>
+    <script src="{% static 'lib/bootstrap-daterangepicker-3.1/js/daterangepicker.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'lib/bootstrap-daterangepicker-3.1/css/daterangepicker.css' %}"/>
+    <script src="{% static 'sale/admin/js/list.js' %}"></script>
+{% endblock %}
+
+{% block columns %}
+    <th>Id</th>
+    <th>Cliente</th>
+    <th>Fecha de registro</th>
+    <th>Subtotal</th>
+    <th>IVA</th>
+    <th>Dscto</th>
+    <th>Total</th>
+    <th>Efectivo</th>
+    <th>Cambio</th>
+    <th>Opciones</th>
+{% endblock %}
+
+{% block javascript_list %}
+    <div class="modal fade" tabindex="-1" id="myModalDetail">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold">
+                        <i class="fa fa-search"></i> Detalle de la venta
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <table style="width:100%;" class="table table-bordered table-sm" id="tblProducts">
+                        <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Precio</th>
+                            <th>Cantidad</th>
+                            <th>Subtotal</th>
+                            <th>Dscto</th>
+                            <th>Total</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content_list %}
+    <div class="row">
+        <div class="col-lg-5 col-md-12">
+            <div class="mb-3">
+                <label class="form-label fw-bold">{{ form.date_range.label }}:</label>
+                <div class="input-group mb-3">
+                    {{ form.date_range }}
+                    <button class="btn btn-primary btnSearchAll" type="button" id="button-addon2">
+                        <i class="fas fa-calendar-check"></i> Ver todas
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
