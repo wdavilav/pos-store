@@ -1,0 +1,31 @@
+{% extends 'form.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% load pos_extras %}
+{% block assets_form %}
+    <link rel="stylesheet" href="{% static 'lib/bootstrap-touchspin-4.2.5/css/jquery.bootstrap-touchspin.css' %}"/>
+    <script src="{% static 'lib/bootstrap-touchspin-4.2.5/js/jquery.bootstrap-touchspin.js' %}"></script>
+    <script src="{% static 'company/js/form.js' %}"></script>
+{% endblock %}
+
+{% block form_fields %}
+    {% for fields in form|split_form_fields:3 %}
+        <div class="row">
+            {% for field in fields %}
+                <div class="col">
+                    <div class="mb-3 form-input">
+                        <label for="{{ field.label }}" class="form-label fw-bold">{{ field.label }}:</label>
+                        {% if field.field.widget.input_type == 'checkbox' %}
+                            <div class="form-check">
+                                {{ field }}
+                                <label class="form-check-label" for="flexCheckChecked"></label>
+                            </div>
+                        {% else %}
+                            {{ field|add_class:'form-control' }}
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endfor %}
+{% endblock %}

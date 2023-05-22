@@ -1,0 +1,155 @@
+{% load static %}
+{% load security_extras %}
+<header>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-primary">
+        <div class="container-fluid px-5">
+            <a class="navbar-brand" href="{% url 'dashboard' %}">
+                <img alt="" src="{{ dashboard.get_image }}" class="img-fluid img-sm"> {{ dashboard.name }}
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-boxes"></i> Bodega
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item" href="{% url 'category_list' %}">
+                                    <i class="fas fa-truck-loading"></i> Categorías
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'product_list' %}">
+                                    <i class="fas fa-box"></i> Productos
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-wrench"></i> Configuraciones
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item" href="{% url 'company_update' %}">
+                                    <i class="fas fa-building"></i> Compañia
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'dashboard_update' %}">
+                                    <i class="fas fa-tools"></i> Conf. Dashboard
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-cart-plus"></i> Facturación
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item" href="{% url 'client_list' %}">
+                                    <i class="fas fa-user-friends"></i> Clientes
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'sale_admin_list' %}">
+                                    <i class="fas fa-shopping-cart"></i> Ventas
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-chart-pie"></i> Reportes
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item" href="{% url 'sale_report' %}">
+                                    <i class="fas fa-chart-bar"></i> Ventas
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-lock"></i> Seguridad
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item" href="{% url 'user_list' %}">
+                                    <i class="fas fa-user"></i> Usuarios
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'user_access_list' %}">
+                                    <i class="fas fa-user-secret"></i> Accesos
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div id="navbarCollapse" class="collapse navbar-collapse">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'user_update_password' %}">
+                            <i class="fas fa-key"></i> Actualizar Contraseña
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'user_update_profile' %}">
+                            <i class="fas fa-user"></i> Actualizar Perfil
+                        </a>
+                    </li>
+                    {% if request.user.has_at_least_one_group %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link{% if request.user.has_more_than_one_group %} dropdown-toggle{% endif %}" data-bs-toggle="dropdown">Perfil: {{ request.session.group.name }}</a>
+                            {% if request.user.has_more_than_one_group %}
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    {% for group in request.user.groups.all %}
+                                        {% if group.id != request.session.group.id %}
+                                            <a href="{% url 'user_choose_profile' group.id %}" class="dropdown-item">{{ group.name }}</a>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </li>
+                    {% endif %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" data-bs-toggle="dropdown">Usuario: {{ request.user.username }}</a>
+                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
+                            <div class="dropdown-header text-center">Datos de conexión</div>
+                            <a class="dropdown-item">
+                                <p class="pb-0 mb-0">
+                                    <b>Dirección ip:</b><br>
+                                    {{ request.META.REMOTE_ADDR }}
+                                </p>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item">
+                                <p class="pb-0 mb-0">
+                                    <b>Información:</b><br>
+                                    {{ request.user_agent }}
+                                </p>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item">
+                                <p class="pb-0 mb-0">
+                                    <b>Última fecha de conexión:</b><br>
+                                    {{ request.user.last_login }}
+                                </p>
+                            </a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login_logout' %}"><i class="fas fa-power-off"></i> Cerrar Sesión</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>

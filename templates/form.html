@@ -1,0 +1,71 @@
+{% extends 'list.html' %}
+{% load widget_tweaks %}
+{% block assets_list %}
+    {% block assets_form %}
+
+    {% endblock %}
+{% endblock %}
+
+{% block content %}
+    <form enctype="multipart/form-data" method="post" autocomplete="off" data-url="{{ list_url }}" id="frmForm">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">
+                    {% if action == 'add' %}
+                        <i class="fas fa-plus"></i>
+                    {% else %}
+                        <i class="fas fa-edit"></i>
+                    {% endif %}
+                    {{ title }}
+                </h3>
+            </div>
+            <div class="card-body">
+                <div class="container-fluid">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="{{ action }}">
+                    {{ form.errors }}
+                    {% block form_fields %}
+                        {% for field in form.visible_fields %}
+                            <div class="mb-3 form-input">
+                                <label for="{{ field.label }}" class="form-label fw-bold">{{ field.label }}:</label>
+                                {% if field.field.widget.input_type == 'checkbox' %}
+                                    <div class="form-check">
+                                        {{ field }}
+                                        <label class="form-check-label" for="flexCheckChecked"></label>
+                                    </div>
+                                {% else %}
+                                    {{ field|add_class:'form-control' }}
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    {% endblock %}
+                </div>
+            </div>
+            <div class="card-footer">
+                {% block buttons %}
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Guardar registro
+                    </button>
+                    <a href="{{ list_url }}" class="btn btn-danger">
+                        <i class="fas fa-times"></i> Cancelar
+                    </a>
+                {% endblock %}
+            </div>
+        </div>
+    </form>
+    {% block content_form_before %}
+        <script type="application/javascript">
+            $(function () {
+                $('form').on('submit', function (e) {
+                    e.preventDefault();
+                    var form = $(this)[0];
+                    var args = {
+                        'params': new FormData(form),
+                        'form': form
+                    };
+                    submit_with_formdata(args);
+                });
+            });
+        </script>
+    {% endblock %}
+{% endblock %}
