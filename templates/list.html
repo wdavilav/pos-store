@@ -1,0 +1,65 @@
+{% extends 'body.html' %}
+{% load static %}
+{% block assets %}
+    <link rel="stylesheet" href="{% static 'lib/datatables-1.10.25/css/dataTables.bootstrap5.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'lib/datatables-1.10.25/plugins/responsive-2.2.9/css/responsive.bootstrap5.min.css' %}"/>
+    <script src="{% static 'lib/datatables-1.10.25/js/jquery.dataTables.js' %}"></script>
+    <script src="{% static 'lib/datatables-1.10.25/js/dataTables.bootstrap5.min.js' %}"></script>
+    <script src="{% static 'lib/datatables-1.10.25/plugins/responsive-2.2.9/js/dataTables.responsive.min.js' %}"></script>
+    <script src="{% static 'lib/datatables-1.10.25/plugins/responsive-2.2.9/js/responsive.bootstrap5.min.js' %}"></script>
+    {% block assets_list %}
+
+    {% endblock %}
+{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title mb-0"><i class="fa-solid fa-magnifying-glass"></i> {{ title }}</h3>
+        </div>
+        <div class="card-body">
+            <div class="container-fluid">
+                {% block content_list %}
+
+                {% endblock %}
+                <table style="width:100%;" class="table table-bordered" id="data">
+                    <thead>
+                    <tr>
+                        <!--Columns-->
+                        {% block columns %}{% endblock %}
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!--Rows-->
+                    {% block rows %}{% endblock %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% block card_footer %}
+            <div class="card-footer">
+                {% if create_url %}
+                    <a href="{{ create_url }}" class="btn btn-primary">
+                        <i class="fa-solid fa-plus"></i> Nuevo Registro
+                    </a>
+                {% endif %}
+                <a href="." class="btn btn-success">
+                    <i class="fas fa-sync-alt"></i> Actualizar
+                </a>
+            </div>
+        {% endblock %}
+    </div>
+    {% block javascript_list %}
+        <script type="application/javascript">
+            $(function () {
+                $('#data').DataTable({
+                    autoWidth: false,
+                    destroy: true,
+                    initComplete: function (settings, json) {
+
+                    }
+                });
+            });
+        </script>
+    {% endblock %}
+{% endblock %}
