@@ -1,0 +1,39 @@
+{% extends 'body.html' %}
+
+{% block content %}
+    <form method="post" data-url="{{ list_url }}">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title"><i class="fas fa-info-circle"></i> {{ title }}</h3>
+            </div>
+            <div class="card-body">
+                {% csrf_token %}
+                <p class="text-center fw-bold mt-3">
+                    <i class="fas fa-trash fa-3x"></i><br><br>
+                    ¿Estas seguro de eliminar el registro N° {{ object.id }}?
+                </p>
+            </div>
+            <div class="card-footer">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-check-circle"></i> Si, Aceptar
+                </button>
+                <a href="{{ list_url }}" class="btn btn-danger">
+                    <i class="fas fa-times"></i> Cancelar
+                </a>
+            </div>
+        </div>
+    </form>
+    <script type="application/javascript">
+        $(function () {
+            $('form').on('submit', function (e) {
+                e.preventDefault();
+                var form = $(this)[0];
+                var args = {
+                    'params': new FormData(form),
+                    'form': form
+                };
+                submit_with_formdata(args);
+            });
+        });
+    </script>
+{% endblock %}
