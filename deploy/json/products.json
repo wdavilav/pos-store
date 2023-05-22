@@ -1,0 +1,72 @@
+[
+  {
+    "name": "LAVA WIMPLUS 900 GR TORONJA X12U",
+    "code": "H993F200",
+    "category": "DESINFECTANTE",
+    "price": "1.49",
+    "pvp": "1.79"
+  },
+  {
+    "name": "LAVA WIMPLUS 900 GR TUTIFRUTI X12U",
+    "code": "91301662",
+    "category": "DESINFECTANTE",
+    "price": "1.49",
+    "pvp": "1.79"
+  },
+  {
+    "name": "TIPS AMB. BANO MANZANA X144U",
+    "code": "11011050040",
+    "category": "DESINFECTANTE",
+    "price": "0.69",
+    "pvp": "0.82"
+  },
+  {
+    "name": "ESPONJA COLORES X3U ESTRELLA X40P",
+    "code": "PT0401001",
+    "category": "DESINFECTANTE",
+    "price": "0.41",
+    "pvp": "0.71"
+  },
+  {
+    "name": "MR. MUSCULO TANQUE X2U",
+    "code": "12669",
+    "category": "DESINFECTANTE",
+    "price": "1.41",
+    "pvp": "2.71"
+  },
+  {
+    "name": "DESINF. WISE FLORAL GALON",
+    "code": "06DWFG",
+    "category": "DESINFECTANTE",
+    "price": "1.41",
+    "pvp": "3.43"
+  },
+  {
+    "name": "SUAVIZANTE WISE PRIMAVERAL 430ML",
+    "code": "SUAROPW430",
+    "category": "DESINFECTANTE",
+    "price": "0.35",
+    "pvp": "0.55"
+  },
+  {
+    "name": "SCOTT CUID.COMPLETO GD P11/LL12 X5P",
+    "code": "KC-9763",
+    "category": "DESINFECTANTE",
+    "price": "4.45",
+    "pvp": "6.46"
+  },
+  {
+    "name": "DET. WISE 3 KL LIMON X6U",
+    "code": "06DW3L",
+    "category": "DESINFECTANTE",
+    "price": "3.41",
+    "pvp": "4.52"
+  },
+  {
+    "name": "PROTEX FRESH",
+    "code": "02062",
+    "category": "DESINFECTANTE",
+    "price": "1.39",
+    "pvp": "2.40"
+  }
+]

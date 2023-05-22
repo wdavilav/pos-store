@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content_main %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a class="text-decoration-none text-muted" href="{% url 'dashboard' %}">
+                    <i class="fas fa-home"></i> Panel
+                </a>
+            </li>
+            {% block breadcrumb_item %}
+                <li class="breadcrumb-item">
+                    <a class="text-decoration-none text-muted" href="{{ list_url }}">
+                        <i class="fas fa-folder-tree"></i> {{ module_name }}
+                    </a>
+                </li>
+            {% endblock %}
+        </ol>
+    </nav>
+    {% block content %}
+
+    {% endblock %}
+    <script>
+        {% if messages %}
+            var errors = '';
+            {% for message in messages %}
+                errors += '{{ message }}\n';
+            {% endfor %}
+            message_error(errors);
+        {% endif %}
+    </script>
+{% endblock %}

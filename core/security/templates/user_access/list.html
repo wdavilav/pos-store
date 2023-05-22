@@ -1,0 +1,43 @@
+{% extends 'list.html' %}
+{% load static %}
+{% block assets_list %}
+    <script src="{% static 'lib/bootstrap-daterangepicker-3.1/js/spanish.js' %}"></script>
+    <script src="{% static 'lib/bootstrap-daterangepicker-3.1/js/daterangepicker.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'lib/bootstrap-daterangepicker-3.1/css/daterangepicker.css' %}"/>
+    <script src="{% static 'user_access/js/list.js' %}"></script>
+{% endblock %}
+
+{% block columns %}
+    <th>Número</th>
+    <th>Usuario</th>
+    <th>Fecha de registro</th>
+    <th>Hora</th>
+    <th>Localhost</th>
+    <th>D.Conexión</th>
+    <th>Tipo de Intento</th>
+    <th class="text-center">Opciones</th>
+{% endblock %}
+
+{% block javascript_list %}
+
+{% endblock %}
+
+{% block content_list %}
+    <div class="row">
+        <div class="col-lg-5 col-md-12">
+            <div class="mb-3">
+                <label class="form-label fw-bold">{{ form.date_range.label }}:</label>
+                <div class="input-group mb-3">
+                    {{ form.date_range }}
+                    <button class="btn btn-primary btnSearchAll" type="button" id="button-addon2">
+                        <i class="fas fa-calendar-check"></i> Ver todas
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block card_footer %}
+
+{% endblock %}
