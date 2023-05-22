@@ -1,0 +1,38 @@
+// DRIVER DATABASE
+PostgreSQL = pip install psycopg2-binary | django.db.backends.postgresql_psycopg2
+MySQL = pip install mysqlclient | django.db.backends.mysql
+SQL Server = pip install django mssql-django | mssql
+
+// EXPORT A DATABASE
+python manage.py dumpdata --indent 2 > deploy/backup.json
+
+// RESTORE A DATABASE
+python manage.py loaddata deploy/backup.json
+
+// RESET INCREMENT SQLITE
+sqlite3 nombre_base
+delete from auth_permission;
+delete from sqlite_sequence where name='auth_permission';
+delete from django_content_type;
+delete from sqlite_sequence where name='django_content_type';
+
+// RESET INCREMENT POSTGRESQL
+sudo -u postgres psql -d nombre_base
+use nombre_base;
+delete from public.auth_permission;
+ALTER SEQUENCE public.auth_permission_id_seq RESTART WITH 1;
+delete from public.django_content_type;
+ALTER SEQUENCE public.django_content_type_id_seq RESTART WITH 1;
+
+// RESET INCREMENT MYSQL
+delete from auth_permission;
+ALTER TABLE auth_permission AUTO_INCREMENT = 1;
+delete from django_content_type;
+ALTER TABLE django_content_type AUTO_INCREMENT = 1;
+
+// REMOVE MIGRATIONS
+find . -path "*/migrations/*.py" -not -name "__init__.py" ! -path */venv/* -delete
+
+// INSERT INITIAL DATA
+python manage.py shell --command='from core.init import *'
+python manage.py shell --command='from core.utils import *'
