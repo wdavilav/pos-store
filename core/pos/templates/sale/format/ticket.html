@@ -1,0 +1,173 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="{% static 'lib/bootstrap-5.0.2/css/bootstrap.min.css' %}" rel="stylesheet">
+    <style>
+        @page {
+            width: 58mm;
+            height: {{ height }}px;
+            margin: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            padding: 0;
+            margin: 0;
+            font-size: 6px;
+            color: black !important;
+            min-height: 100%;
+        }
+
+        .content {
+            width: 58mm;
+            padding: 10px;
+        }
+
+        .head-name {
+            margin-top: 10px;
+            font-size: 15px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 0;
+            text-align: center;
+        }
+
+        .head-voucher-number {
+            font-size: 10px;
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 0;
+            font-weight: bold;
+        }
+
+        .head-details {
+            margin-top: 0;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .head-data {
+            text-align: left;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .table {
+            color: black;
+        }
+
+        #details thead tr th {
+            border-bottom: 1px outset black;
+        }
+
+        .table td, .table th {
+            padding: 0;
+            color: black;
+            font-size: 5px;
+            text-transform: uppercase;
+        }
+
+        .img-logo {
+            margin-top: 5px;
+            width: 20px;
+            height: 20px;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+<div class="content">
+    <img alt="" src="{{ sale.company.get_image }}" class="img-fluid d-block mx-auto img-logo">
+    <h1 class="head-name">{{ sale.company.name|upper }}</h1>
+    <p class="text-center head-details">
+        Dirección matriz: {{ sale.company.address }}<br>
+        RUC: {{ sale.company.ruc }}<br>
+        Teléfono: {{ sale.company.phone }} / Celular: {{ sale.company.mobile }}<br>
+        Email: {{ sale.company.email }}
+    </p>
+
+    <p class="text-center head-voucher-number">TICKET N° {{ sale.id }}</p>
+
+    <p class="head-data">
+        <b>Fecha de registro:</b> {{ sale.date_joined|date:'c' }}<br>
+        <b>Factura:</b> {{ sale.id }}<br>
+        <b>Cliente:</b> {{ sale.client.names }}<br>
+        <b>Número de cédula:</b> {{ sale.client.dni }}<br>
+    </p>
+
+    <table class="table table-borderless table-sm" id="details" style="margin-bottom: 0">
+        <thead>
+        <tr>
+            <th style="width: 15%;">Cantidad</th>
+            <th style="width: 40%;">Descripción</th>
+            <th style="width: 15%;">P./Unitario</th>
+            <th style="width: 15%;">Dscto</th>
+            <th style="width: 15%;" class="text-right">Subtotal</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for detail in sale.saledetail_set.all %}
+            <tr>
+                <td>{{ detail.cant }}</td>
+                <td>{{ detail.product.name }}</td>
+                <td>{{ detail.price|floatformat:2 }}</td>
+                <td>{{ detail.total_dscto|floatformat:2 }}</td>
+                <td class="text-right">{{ detail.total|floatformat:2 }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <table class="table table-borderless table-sm text-uppercase mt-3">
+        <thead>
+        <tr>
+            <th style="width: 80%;"></th>
+            <th style="width: 20%;"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td class="float-right font-weight-bold">Subtotal sin impuestos</td>
+            <td class="text-right">{{ sale.get_subtotal_without_taxes|floatformat:2 }}</td>
+        </tr>
+        <tr>
+            <td class="float-right font-weight-bold">Descuentos</td>
+            <td class="text-right">{{ sale.total_dscto|floatformat:2 }}</td>
+        </tr>
+        <tr>
+            <td class="float-right font-weight-bold">Subtotal 12%</td>
+            <td class="text-right">{{ sale.subtotal_12|floatformat:2 }}</td>
+        </tr>
+        <tr>
+            <td class="float-right font-weight-bold">Subtotal 0%</td>
+            <td class="text-right">{{ sale.subtotal_0|floatformat:2 }}</td>
+        </tr>
+        <tr>
+            <td class="float-right font-weight-bold">IVA {{ sale.get_iva_percent }}%:</td>
+            <td class="text-right">{{ sale.total_iva|floatformat:2 }}</td>
+        </tr>
+        <tr>
+            <td class="float-right font-weight-bold">Descuento {{ sale.dscto|floatformat:2 }}%</td>
+            <td class="text-right">{{ sale.total_dscto|floatformat:2 }}</td>
+        </tr>
+        <tr>
+            <td class="float-right font-weight-bold">Total</td>
+            <td class="text-right">{{ sale.total|floatformat:2 }}</td>
+        </tr>
+        <tr>
+            <td class="float-right font-weight-bold">Efectivo</td>
+            <td class="text-right">{{ sale.cash|floatformat:2 }}</td>
+        </tr>
+        <tr>
+            <td class="float-right font-weight-bold">Cambio</td>
+            <td class="text-right">{{ sale.change|floatformat:2 }}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

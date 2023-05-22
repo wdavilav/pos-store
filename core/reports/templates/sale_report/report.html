@@ -1,0 +1,40 @@
+{% extends 'report.html' %}
+{% load static %}
+{% block assets_report %}
+    <script src="{% static 'sale_report/js/report.js' %}" type="text/javascript"></script>
+{% endblock %}
+
+{% block content_report %}
+    <div class="row">
+        <div class="col-lg-5 col-md-12">
+            <div class="mb-3">
+                <label class="form-label fw-bold">{{ form.date_range.label }}:</label>
+                <div class="input-group mb-3">
+                    {{ form.date_range }}
+                    <button class="btn btn-primary btnSearchAll" type="button">
+                        <i class="fas fa-calendar-check"></i> Todas las ventas
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <hr>
+            <table class="table table-bordered" id="tblReport" style="width:100%;">
+                <thead>
+                <tr>
+                    <th style="width: 10%;">Cliente</th>
+                    <th style="width: 15%;">Número de cedula</th>
+                    <th style="width: 15%;">Fecha de registro</th>
+                    <th style="width: 15%;">Subtotal</th>
+                    <th style="width: 15%;">Descuento</th>
+                    <th style="width: 15%;">IVA</th>
+                    <th style="width: 10%;">Total</th>
+                </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

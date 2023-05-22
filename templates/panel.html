@@ -1,0 +1,216 @@
+{% extends 'body.html' %}
+{% load static %}
+{% block assets %}
+    <script src="{% static 'lib/highcharts-9.1.1/highcharts.js' %}" type="text/javascript"></script>
+    <script src="{% static 'lib/highcharts-9.1.1/highcharts-3d.js' %}" type="text/javascript"></script>
+    <script src="{% static 'lib/highcharts-9.1.1/modules/exporting.js' %}" type="text/javascript"></script>
+    <script src="{% static 'lib/highcharts-9.1.1/modules/data.js' %}" type="text/javascript"></script>
+    <script src="{% static 'lib/highcharts-9.1.1/modules/drilldown.js' %}" type="text/javascript"></script>
+{% endblock %}
+
+{% block breadcrumb_item %}
+
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid p-0">
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <div class="card p-4">
+                    <h4 class="font-weight-bold text-center mb-3">
+                        <i class="fas fa-shopping-cart"></i> Las 10 últimas ventas realizadas
+                    </h4>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th scope="col">Número</th>
+                            <th scope="col">Cliente</th>
+                            <th scope="col">Fecha de registro</th>
+                            <th scope="col">Subtotal</th>
+                            <th scope="col">IVA</th>
+                            <th scope="col">Descuento</th>
+                            <th scope="col">Total</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for sale in sales %}
+                            <tr>
+                                <td>{{ sale.id }}</td>
+                                <td>{{ sale.client }}</td>
+                                <td>{{ sale.date_joined }}</td>
+                                <td>{{ sale.get_subtotal_without_taxes|floatformat:2 }}</td>
+                                <td>{{ sale.total_iva|floatformat:2 }}</td>
+                                <td>{{ sale.total_dscto|floatformat:2 }}</td>
+                                <td>{{ sale.total|floatformat:2 }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row gx-2">
+            <div class="col-lg-6">
+                <div id="container" class="card p-3 mt-2"></div>
+            </div>
+            <div class="col-lg-6">
+                <div id="container-pie" class=" card p-3 mt-2"></div>
+            </div>
+        </div>
+    </div>
+    <script type="application/javascript">
+        var chart = {
+            getSalesYearMonth: function () {
+                $.ajax({
+                    url: pathname,
+                    data: {
+                        'action': 'get_graph_sales_year_month'
+                    },
+                    type: 'POST',
+                    dataType: 'json',
+                    headers: {
+                        'X-CSRFToken': csrftoken
+                    },
+                    success: function (request) {
+                        if (!request.hasOwnProperty('error')) {
+                            Highcharts.chart('container', {
+                                chart: {
+                                    type: 'column'
+                                },
+                                exporting: false,
+                                title: {
+                                    text: 'Reporte de ventas del año {{ date_joined.year }}'
+                                },
+                                subtitle: {
+                                    text: ''
+                                },
+                                xAxis: {
+                                    categories: [
+                                        'Enero',
+                                        'Febrero',
+                                        'Marzo',
+                                        'Abril',
+                                        'Mayo',
+                                        'Junio',
+                                        'Julio',
+                                        'Agosto',
+                                        'Septiembre',
+                                        'Octubre',
+                                        'Noviembre',
+                                        'Diciembre'
+                                    ],
+                                    crosshair: true
+                                },
+                                yAxis: {
+                                    min: 0,
+                                    title: {
+                                        text: ''
+                                    }
+                                },
+                                tooltip: {
+                                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                                        '<td style="padding:0"><b>{point.y:.1f} $</b></td></tr>',
+                                    footerFormat: '</table>',
+                                    shared: true,
+                                    useHTML: true
+                                },
+                                plotOptions: {
+                                    column: {
+                                        pointPadding: 0.2,
+                                        borderWidth: 0
+                                    }
+                                },
+                                series: [{
+                                    name: 'Total',
+                                    showInLegend: false,
+                                    colorByPoint: true,
+                                    data: request,
+                                    dataLabels: {
+                                        enabled: true,
+                                        rotation: 0,
+                                        color: '#FFFFFF',
+                                        align: 'center',
+                                        format: '{point.y:.2f}',
+                                        y: 50,
+                                        style: {
+                                            fontSize: '11px',
+                                            fontFamily: 'Verdana, sans-serif'
+                                        }
+                                    }
+                                }]
+                            });
+                            return false;
+                        }
+                        message_error(request.error);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        message_error(errorThrown + ' ' + textStatus);
+                    }
+                });
+            },
+            getSalesProductsYearMonth: function () {
+                $.ajax({
+                    url: pathname,
+                    data: {
+                        'action': 'get_graph_sales_products_year_month'
+                    },
+                    type: 'POST',
+                    dataType: 'json',
+                    headers: {
+                        'X-CSRFToken': csrftoken
+                    },
+                    success: function (request) {
+                        if (!request.hasOwnProperty('error')) {
+                            Highcharts.chart('container-pie', {
+                                chart: {
+                                    plotBackgroundColor: null,
+                                    plotBorderWidth: null,
+                                    plotShadow: false,
+                                    type: 'pie'
+                                },
+                                exporting: false,
+                                title: {
+                                    text: 'Total recaudado por producto del mes {{ month }} del año {{ date_joined.year }}'
+                                },
+                                tooltip: {
+                                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                                },
+                                accessibility: {
+                                    point: {
+                                        valueSuffix: '%'
+                                    }
+                                },
+                                plotOptions: {
+                                    pie: {
+                                        allowPointSelect: true,
+                                        cursor: 'pointer',
+                                        dataLabels: {
+                                            enabled: true,
+                                            format: '<b>{point.name}</b><br>{point.y:.2f}',
+                                            {#distance: -50,#}
+                                        }
+                                    }
+                                },
+                                series: [{
+                                    'name': 'Porcentaje',
+                                    'colorByPoint': true,
+                                    'data': request
+                                }]
+                            });
+                            return false;
+                        }
+                        message_error(request.error);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        message_error(errorThrown + ' ' + textStatus);
+                    }
+                });
+            }
+        };
+        $(function () {
+            chart.getSalesYearMonth();
+            chart.getSalesProductsYearMonth();
+        });
+    </script>
+{% endblock %}
