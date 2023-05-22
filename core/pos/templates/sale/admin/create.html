@@ -1,0 +1,189 @@
+{% extends 'form.html' %}
+{% load widget_tweaks %}
+{% load static %}
+{% block assets_form %}
+    <link rel="stylesheet" href="{% static 'lib/jquery-ui-1.12.1/jquery-ui.css' %}"/>
+    <script src="{% static 'lib/jquery-ui-1.12.1/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'lib/select2-4.0.13/js/select2.min.js' %}"></script>
+    <script src="{% static 'lib/select2-4.0.13/js/i18n/es.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'lib/select2-4.0.13/css/select2.min.css' %}">
+    <link rel="stylesheet" href="{% static 'lib/select2-4.0.13/css/select2-bootstrap4.min.css' %}">
+    <link rel="stylesheet" href="{% static 'lib/bootstrap-touchspin-4.2.5/css/jquery.bootstrap-touchspin.css' %}"/>
+    <script src="{% static 'lib/bootstrap-touchspin-4.2.5/js/jquery.bootstrap-touchspin.js' %}"></script>
+    <script src="{% static 'lib/tempusdominus-bootstrap-4.5.37.0/js/tempusdominus-bootstrap.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'lib/tempusdominus-bootstrap-4.5.37.0/css/tempusdominus-bootstrap.css' %}"/>
+{% endblock %}
+
+{% block form_fields %}
+    <div class="row mb-4">
+        <div class="col-lg-4">
+            <label class="form-label fw-bold">{{ form.date_joined.label }}:</label>
+            {{ form.date_joined }}
+        </div>
+        <div class="col-lg-8">
+            <label class="form-label fw-bold">{{ form.client.label }}:</label>
+            <div class="input-group">
+                {{ form.client }}
+                <button class="btn btn-success btnAddClient" type="button">
+                    <i class="fas fa-plus"></i> Crear cliente
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="card p-4">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Búsqueda de productos:</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control form-control-lg" autocomplete="off" name="search_product" placeholder="Ingrese el nombre de un producto">
+                        <button class="btn btn-success btnSearchProducts" type="button">
+                            <i class="fas fa-search"></i> Buscar productos
+                        </button>
+                        <button class="btn btn-warning btnClearProducts" type="button">
+                            <i class="fas fa-times"></i> Limpiar búsqueda
+                        </button>
+                        <button class="btn btn-danger btnRemoveAllProducts" type="button">
+                            <i class="fas fa-trash-alt"></i> Borrar todo
+                        </button>
+                    </div>
+                </div>
+                <table style="width:100%;" class="table table-bordered" id="tblProducts">
+                    <thead>
+                    <tr>
+                        <th style="width: 5%;">Eliminar</th>
+                        <th style="width: 25%;">Producto</th>
+                        <th style="width: 5%;">Stock</th>
+                        <th style="width: 20%;">Cantidad</th>
+                        <th style="width: 15%;">P./Unitario</th>
+                        <th style="width: 20%;">Descuento</th>
+                        <th style="width: 10%;">Total</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-lg-4 card border p-3">
+                <div class="mb-3">
+                    <label class="form-label fw-bold">{{ form.subtotal_0.label|upper }}</label>
+                    {{ form.subtotal_0 }}
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">{{ form.subtotal_12.label|upper }}</label>
+                    {{ form.subtotal_12 }}
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">{{ form.dscto.label|upper }}</label>
+                    {{ form.dscto }}
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">{{ form.total_dscto.label|upper }}</label>
+                    {{ form.total_dscto }}
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">{{ form.iva.label|upper }}</label>
+                    {{ form.iva }}
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">{{ form.total_iva.label|upper }}</label>
+                    {{ form.total_iva }}
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">{{ form.total.label|upper }}</label>
+                    {{ form.total }}
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">{{ form.cash.label }}:</label>
+                    {{ form.cash }}
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">{{ form.change.label }}:</label>
+                    {{ form.change }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block buttons %}
+    <button type="submit" class="btn btn-primary">
+        <i class="fas fa-file-invoice-dollar"></i> Generar Venta
+    </button>
+    <a href="{{ list_url }}" class="btn btn-danger">
+        <i class="fas fa-times"></i> Cancelar
+    </a>
+{% endblock %}
+
+{% block content_form_before %}
+    <div class="modal fade" tabindex="-1" id="myModalSearchProducts">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold">
+                        <i class="fa fa-search"></i> Búsqueda de productos
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <table style="width:100%;" class="table table-bordered table-sm" id="tblSearchProducts">
+                        <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Nombre</th>
+                            <th>P./Unitario</th>
+                            <th>Stock</th>
+                            <th>Agregar</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" tabindex="-2" id="myModalClient">
+        <div class="modal-dialog modal-lg">
+            <form class="form" id="frmClient" method="POST" autocomplete="off">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title fw-bold">
+                            <i class="fa fa-plus"></i> Nuevo registro de un cliente
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            {% for field in frmClient.visible_fields %}
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">{{ field.label }}:</label>
+                                    {{ field|add_class:'form-control' }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="container-fluid">
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save"></i> Guardar registro
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="{% static 'sale/admin/js/form.js' %}"></script>
+    <script type="application/javascript">
+        sale.detail.iva = {{ company.iva|safe }};
+        $(function () {
+            sale.listProducts();
+            {% if final_consumer %}
+                select_client.select2('trigger', 'select', {data: {{ final_consumer|safe }}});
+            {% endif %}
+        });
+    </script>
+{% endblock %}

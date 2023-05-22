@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block assets %}
+    <link rel="stylesheet" href="{% static 'login/css/style.css' %}"/>
+    <script src="{% static 'js/main.js' %}"></script>
+    <script src="{% static 'js/functions.js' %}"></script>
+{% endblock %}
+
+{% block body %}
+    <body class="text-center">
+    {% block content_main %}
+
+    {% endblock %}
+    </body>
+{% endblock %}
