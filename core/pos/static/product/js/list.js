@@ -16,16 +16,16 @@ var product = {
                 dataSrc: ""
             },
             columns: [
-                {data: "id"},
-                {data: "name"},
-                {data: "code"},
-                {data: "category.name"},
-                {data: "is_service"},
-                {data: "price"},
-                {data: "pvp"},
-                {data: "stock"},
-                {data: "id"},
-            ],
+                {data: 'id'},
+                {data: 'name'},
+                {data: 'code'},
+                {data: 'category.name'},
+                {data: 'is_service'},
+                {data: 'price'},
+                {data: 'pvp'},
+                {data: 'stock'},
+                {data: 'id'}
+            ]
         });
     }
 };
