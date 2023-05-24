@@ -92,4 +92,19 @@ def insert_data():
         sale.save()
 
 
-insert_data()
+# insert_data()
+data = []
+for product in Product.objects.all():
+    data.append([
+        str(product.id),
+        product.name,
+        product.code,
+        product.category.name,
+        'Si' if product.is_service else 'No',
+        str(product.price),
+        str(product.pvp),
+        str(product.stock),
+        str(product.id)
+    ])
+
+print(data)

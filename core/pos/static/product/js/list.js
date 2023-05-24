@@ -3,76 +3,7 @@ var product = {
         $('#data').DataTable({
             autoWidth: false,
             destroy: true,
-            deferRender: true,
-            ajax: {
-                url: pathname,
-                type: 'POST',
-                headers: {
-                    'X-CSRFToken': csrftoken
-                },
-                data: {
-                    'action': 'search'
-                },
-                dataSrc: ""
-            },
-            columns: [
-                {data: "id"},
-                {data: "name"},
-                {data: "code"},
-                {data: "category.name"},
-                {data: "is_service"},
-                {data: "price"},
-                {data: "pvp"},
-                {data: "stock"},
-                {data: "id"},
-            ],
-            columnDefs: [
-                {
-                    targets: [-5],
-                    class: 'text-center',
-                    render: function (data, type, row) {
-                        if (data) {
-                            return '<span class="badge bg-success rounded-pill">Si</span>';
-                        }
-                        return '<span class="badge bg-warning rounded-pill">No</span>';
-                    }
-                },
-                {
-                    targets: [-3, -4],
-                    class: 'text-center',
-                    render: function (data, type, row) {
-                        return '$' + parseFloat(data).toFixed(2);
-                    }
-                },
-                {
-                    targets: [-2],
-                    class: 'text-center',
-                    render: function (data, type, row) {
-                        if (row.is_service) {
-                            return '---';
-                        }
-                        if (data > 0) {
-                            return '<span class="badge bg-success rounded-pill">' + data + '</span>';
-                        }
-                        return '<span class="badge bg-warning rounded-pill">' + data + '</span>';
-                    }
-                },
-                {
-                    targets: [-1],
-                    class: 'text-center',
-                    render: function (data, type, row) {
-                        var buttons = '<a href="' + pathname + 'update/' + row.id + '/" data-bs-toggle="tooltip" title="Editar" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a> ';
-                        buttons += '<a href="' + pathname + 'delete/' + row.id + '/" data-bs-toggle="tooltip" title="Eliminar" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>';
-                        return buttons;
-                    }
-                },
-            ],
-            rowCallback: function (row, data, index) {
-
-            },
-            initComplete: function (settings, json) {
-                enable_tooltip();
-            }
+            data: [['1', 'LAVA WIMPLUS 900 GR TORONJA X12U', 'H993F200', 'DESINFECTANTE', 'No', '1.49', '1.79', '49', '1'], ['2', 'LAVA WIMPLUS 900 GR TUTIFRUTI X12U', '91301662', 'DESINFECTANTE', 'No', '1.49', '1.79', '54', '2'], ['3', 'TIPS AMB. BANO MANZANA X144U', '11011050040', 'DESINFECTANTE', 'No', '0.69', '0.82', '41', '3'], ['4', 'ESPONJA COLORES X3U ESTRELLA X40P', 'PT0401001', 'DESINFECTANTE', 'No', '0.41', '0.71', '60', '4'], ['5', 'MR. MUSCULO TANQUE X2U', '12669', 'DESINFECTANTE', 'No', '1.41', '2.71', '37', '5'], ['6', 'DESINF. WISE FLORAL GALON', '06DWFG', 'DESINFECTANTE', 'No', '1.41', '3.43', '55', '6'], ['7', 'SUAVIZANTE WISE PRIMAVERAL 430ML', 'SUAROPW430', 'DESINFECTANTE', 'No', '0.35', '0.55', '66', '7'], ['8', 'SCOTT CUID.COMPLETO GD P11/LL12 X5P', 'KC-9763', 'DESINFECTANTE', 'No', '4.45', '6.46', '19', '8'], ['9', 'DET. WISE 3 KL LIMON X6U', '06DW3L', 'DESINFECTANTE', 'No', '3.41', '4.52', '59', '9'], ['10', 'PROTEX FRESH', '02062', 'DESINFECTANTE', 'No', '1.39', '2.40', '51', '10'], ['11', 'FORMATEO DE COMPUTADORAS', 'FORMATEO85451', 'SERVICIOS', 'Si', '0.00', '15.00', '0', '11']]
         });
     }
 };
