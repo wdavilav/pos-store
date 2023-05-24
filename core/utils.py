@@ -5,6 +5,7 @@ import string
 from datetime import date
 
 import django
+from django.forms import model_to_dict
 
 from config import settings
 
@@ -95,18 +96,14 @@ def insert_data():
 # insert_data()
 data = []
 for product in Product.objects.all():
-    data.append({
-        'id': product.id,
-        'name': product.name,
-        'code': product.code,
-        'category': {
-            'id': product.category.id,
-            'name': product.category.name
-        },
-        'is_service': product.is_service,
-        'price': float(product.price),
-        'pvp': float(product.pvp),
-        'stock': product.stock
-    })
+    data.append(product.toJSON())
 
 print(json.dumps(data))
+#
+# product = Product.objects.get(pk=1)
+# product_object = model_to_dict(product)
+# product_object['category'] = product.category.toJSON()
+# product_object['price'] = float(product.price)
+# product_object['pvp'] = float(product.pvp)
+# product_object['image'] = product.get_image()
+# print(product.toJSON())
