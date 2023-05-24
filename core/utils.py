@@ -95,16 +95,18 @@ def insert_data():
 # insert_data()
 data = []
 for product in Product.objects.all():
-    data.append([
-        str(product.id),
-        product.name,
-        product.code,
-        product.category.name,
-        'Si' if product.is_service else 'No',
-        str(product.price),
-        str(product.pvp),
-        str(product.stock),
-        str(product.id)
-    ])
+    data.append({
+        'id': product.id,
+        'name': product.name,
+        'code': product.code,
+        'category': {
+            'id': product.category.id,
+            'name': product.category.name
+        },
+        'is_service': product.is_service,
+        'price': float(product.price),
+        'pvp': float(product.pvp),
+        'stock': product.stock
+    })
 
-print(data)
+print(json.dumps(data))
