@@ -40,7 +40,7 @@ class SaleListView(GroupPermissionMixin, FormView):
                 for i in SaleDetail.objects.filter(sale_id=request.POST['id']):
                     data.append(i.toJSON())
             else:
-                data['error'] = 'No ha ingresado una opción'
+                data['error'] = 'No ha seleccionado ninguna opción'
         except Exception as e:
             data['error'] = str(e)
         return HttpResponse(json.dumps(data), content_type='application/json')
@@ -116,7 +116,7 @@ class SaleCreateView(GroupPermissionMixin, CreateView):
                 form = ClientForm(self.request.POST)
                 data = form.save()
             else:
-                data['error'] = 'No ha ingresado una opción'
+                data['error'] = 'No ha seleccionado ninguna opción'
         except Exception as e:
             data['error'] = str(e)
         return HttpResponse(json.dumps(data), content_type='application/json')
