@@ -25,7 +25,7 @@ class CategoryListView(GroupPermissionMixin, TemplateView):
                 for i in Category.objects.all():
                     data.append(i.toJSON())
             else:
-                data['error'] = 'No ha ingresado una opción'
+                data['error'] = 'No ha seleccionado ninguna opción'
         except Exception as e:
             data['error'] = str(e)
         return HttpResponse(json.dumps(data), content_type='application/json')
@@ -36,7 +36,6 @@ class CategoryListView(GroupPermissionMixin, TemplateView):
         context['list_url'] = reverse_lazy('category_list')
         context['create_url'] = reverse_lazy('category_create')
         context['module_name'] = MODULE_NAME
-        print(self.request.user_agent)
         return context
 
 

@@ -30,7 +30,7 @@ class UserAccessListView(GroupPermissionMixin, FormView):
                 for i in queryset:
                     data.append(i.toJSON())
             else:
-                data['error'] = 'No ha ingresado una opción'
+                data['error'] = 'No ha seleccionado ninguna opción'
         except Exception as e:
             data['error'] = str(e)
         return HttpResponse(json.dumps(data), content_type='application/json')
