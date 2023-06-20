@@ -36,7 +36,6 @@ class CategoryListView(GroupPermissionMixin, TemplateView):
         context['list_url'] = reverse_lazy('category_list')
         context['create_url'] = reverse_lazy('category_create')
         context['module_name'] = MODULE_NAME
-        print(self.request.user_agent)
         return context
 
 
