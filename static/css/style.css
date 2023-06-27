@@ -62,3 +62,8 @@
     top: 36%;
     width: 100%;
 }
+
+.low-stock {
+    background-color: #a20000 !important;
+    color: white !important;
+}

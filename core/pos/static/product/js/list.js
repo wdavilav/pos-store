@@ -65,7 +65,13 @@ var product = {
                         return buttons;
                     }
                 },
-            ]
+            ],
+            rowCallback: function (row, data, index) {
+                if (data.stock < 5) {
+                    // $(row).addClass('low-stock');
+                    $(row).addClass('low-stock');
+                }
+            }
         });
     }
 };
