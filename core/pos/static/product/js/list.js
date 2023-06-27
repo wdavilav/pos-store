@@ -13,7 +13,10 @@ var product = {
                 data: {
                     'action': 'search'
                 },
-                dataSrc: ""
+                dataSrc: "",
+                beforeSend: function () {
+                    loading({'text': 'Cargando'});
+                },
             },
             columns: [
                 {data: 'id'},
@@ -71,6 +74,9 @@ var product = {
                     // $(row).addClass('low-stock');
                     $(row).addClass('low-stock');
                 }
+            },
+            initComplete: function (settings, json) {
+                $.LoadingOverlay("hide");
             }
         });
     }

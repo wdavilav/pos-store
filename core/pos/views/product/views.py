@@ -1,4 +1,5 @@
 import json
+import time
 
 from django.http import HttpResponse
 from django.urls import reverse_lazy
@@ -23,6 +24,7 @@ class ProductListView(GroupPermissionMixin, TemplateView):
                 data = []
                 for i in Product.objects.all():
                     data.append(i.toJSON())
+                time.sleep(1)
             else:
                 data['error'] = 'No ha seleccionado ninguna opción'
         except Exception as e:
